@@ -1,6 +1,7 @@
-import { Briefcase, Palette, Code, Layers, RefreshCw, Download } from 'lucide-react';
+import { Briefcase, Palette, Code, RefreshCw, Download } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { generateBrand, type BrandIdentity } from './lib/generator';
+import { LogoPreview } from './components/LogoPreview';
 import { motion } from 'framer-motion';
 
 function App() {
@@ -106,35 +107,14 @@ function App() {
                
                {brand && (
                  <div className="flex-1 flex items-center justify-center p-12 transition-colors duration-500" style={{ backgroundColor: brand.colors.background }}>
-                    <div className="text-center">
+                    <div className="text-center w-full">
                       <motion.div 
                         key={brand.id}
                         initial={{ scale: 0.9, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         transition={{ type: "spring", stiffness: 200, damping: 20 }}
-                        className="flex flex-col items-center gap-6"
                       >
-                        <div 
-                          className="w-24 h-24 rounded-2xl flex items-center justify-center shadow-xl"
-                          style={{ backgroundColor: brand.colors.primary, color: brand.colors.onPrimary }}
-                        >
-                          {/* Dynamic Icon would go here - simplified for prototype */}
-                          <Layers size={48} /> 
-                        </div>
-                        <div>
-                          <h1 
-                            className="text-5xl font-bold tracking-tight"
-                            style={{ color: brand.colors.text, fontFamily: brand.typography.headingFont }}
-                          >
-                            {brandName}
-                          </h1>
-                          <p 
-                            className="mt-2 text-lg opacity-75"
-                            style={{ color: brand.colors.text, fontFamily: brand.typography.bodyFont }}
-                          >
-                            The future of {industry}.
-                          </p>
-                        </div>
+                        <LogoPreview brand={brand} brandName={brandName} />
                       </motion.div>
                     </div>
                  </div>

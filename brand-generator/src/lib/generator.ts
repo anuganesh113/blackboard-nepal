@@ -1,3 +1,11 @@
+import { 
+  Cpu, Globe, Zap, Terminal, Command, // Tech
+  TrendingUp, Wallet, Shield, Landmark, PieChart, // Finance
+  Palette, PenTool, Image, Camera, Sparkles, // Creative
+  Leaf, Flower2, Sun, Mountain, Droplet, // Nature
+  Crown, Gem, Star, Diamond, Award // Luxury
+} from 'lucide-react';
+
 export interface BrandColors {
   primary: string;
   secondary: string;
@@ -11,12 +19,39 @@ export interface BrandTypography {
   bodyFont: string;
 }
 
+export type LogoLayout = 'vertical' | 'horizontal' | 'monogram';
+export type IconStyle = 'filled-square' | 'filled-circle' | 'outline' | 'minimal';
+
 export interface BrandIdentity {
   id: string;
   colors: BrandColors;
   typography: BrandTypography;
   vibe: string;
+  iconName: string;
+  layout: LogoLayout;
+  iconStyle: IconStyle;
 }
+
+// Icon Mapping
+const iconMap: Record<string, string[]> = {
+  tech: ['Cpu', 'Globe', 'Zap', 'Terminal', 'Command'],
+  finance: ['TrendingUp', 'Wallet', 'Shield', 'Landmark', 'PieChart'],
+  creative: ['Palette', 'PenTool', 'Image', 'Camera', 'Sparkles'],
+  nature: ['Leaf', 'Flower2', 'Sun', 'Mountain', 'Droplet'],
+  luxury: ['Crown', 'Gem', 'Star', 'Diamond', 'Award']
+};
+
+// Helper to get component by string name (for the UI to use)
+export const getIconComponent = (name: string) => {
+  const icons: any = { 
+    Cpu, Globe, Zap, Terminal, Command,
+    TrendingUp, Wallet, Shield, Landmark, PieChart,
+    Palette, PenTool, Image, Camera, Sparkles,
+    Leaf, Flower2, Sun, Mountain, Droplet,
+    Crown, Gem, Star, Diamond, Award
+  };
+  return icons[name] || Zap;
+};
 
 // Curated Color Palettes
 const palettes: Record<string, BrandColors[]> = {
@@ -69,18 +104,27 @@ const typography: Record<string, BrandTypography[]> = {
 };
 
 export const generateBrand = (_name: string, industry: string): BrandIdentity => {
-  // 1. Get available palettes for industry (fallback to 'tech' if unknown)
+  // 1. Get available resources
   const industryPalettes = palettes[industry] || palettes.tech;
   const industryFonts = typography[industry] || typography.tech;
+  const industryIcons = iconMap[industry] || iconMap.tech;
 
-  // 2. Randomly select one
+  // 2. Random Selection
   const selectedPalette = industryPalettes[Math.floor(Math.random() * industryPalettes.length)];
   const selectedTypography = industryFonts[Math.floor(Math.random() * industryFonts.length)];
+  const selectedIcon = industryIcons[Math.floor(Math.random() * industryIcons.length)];
+  
+  // 3. Layout Randomization logic
+  const layouts: LogoLayout[] = ['vertical', 'horizontal', 'monogram'];
+  const styles: IconStyle[] = ['filled-square', 'filled-circle', 'outline', 'minimal'];
 
   return {
     id: crypto.randomUUID(),
     colors: selectedPalette,
     typography: selectedTypography,
-    vibe: industry
+    vibe: industry,
+    iconName: selectedIcon,
+    layout: layouts[Math.floor(Math.random() * layouts.length)],
+    iconStyle: styles[Math.floor(Math.random() * styles.length)],
   };
 };
